@@ -5,6 +5,7 @@
   "author": "Yasushi Ikeda <yikeda6616@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^16.0.0",
     "puppeteer": "^13.5.1"
   }
 }
