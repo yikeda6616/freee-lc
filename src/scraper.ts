@@ -7,6 +7,7 @@ const DETAILS_URL = `${BASE_URL}MyFlowServlet?origin=GlobalNavi&event=detail_01`
 export class Scraper {
   browser: Browser | null = null;
   page: Page | null = null;
+  data: Array<string>[] | undefined = [];
 
   async initialize() {
     this.browser = await puppeteer.launch({
@@ -38,7 +39,34 @@ export class Scraper {
 
   async getPaymentDetailsProcess() {
     await this.page?.goto(DETAILS_URL, { waitUntil: "networkidle2" });
-    await this.page?.waitForNavigation({ waitUntil: "networkidle2" });
+
+    this.data = await this.page?.evaluate(() => {
+      const table = document.querySelector(".tbl-stripe-use-detail");
+      const rows = table?.querySelectorAll("tr");
+      return (
+        rows &&
+        Array.from(rows, (row) => {
+          const columns = row.querySelectorAll("th, td");
+          return Array.from(columns, (column) => column.innerHTML);
+        })
+      );
+    });
+
+    // Remove first recode as it's blank
+    this.data?.shift();
+    this.data = this.data
+      ?.filter((i) => i[0] !== "&nbsp;")
+      .map((i) => {
+        i[0] =
+          "20" +
+          i[0].substring(0, 2) +
+          "-" +
+          i[0].substring(2, 4) +
+          "-" +
+          i[0].substring(4, 6);
+        return i.slice(0, 3);
+      });
+  }
 
     // TODO: Implement Scraping Table
   }
