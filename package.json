@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "prepare": "mkdir -p dist"
+    "prepare": "touch .env && mkdir -p dist"
   },
   "dependencies": {
     "csv-stringify": "^6.0.5",
