@@ -17,7 +17,7 @@ yarn
 
 yarn コマンド実行時に ログイン情報を書き込むための `.env` と CSV 出力先となる空の `dist/` がルートディレクトリに自動生成されます
 
-**Create Credential File**
+**Edit Credential File**
 
 `.env` の中身を以下のフォーマットで適宜入力してください。
 
