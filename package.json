@@ -5,7 +5,8 @@
   "author": "Yasushi Ikeda <yikeda6616@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "prepare": "mkdir -p dist"
   },
   "dependencies": {
     "csv-stringify": "^6.0.5",
