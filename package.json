@@ -8,6 +8,7 @@
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
+    "csv-stringify": "^6.0.5",
     "dotenv": "^16.0.0",
     "puppeteer": "^13.5.1"
   },
