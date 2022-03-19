@@ -12,5 +12,7 @@ const env: dotenv.DotenvParseOutput = dotenv.config().parsed ?? {};
 
   await lc.getPaymentDetailsProcess();
 
+  await lc.createCSV();
+
   await lc.close();
 })();

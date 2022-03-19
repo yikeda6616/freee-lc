@@ -1,4 +1,6 @@
 import puppeteer, { Browser, Page } from "puppeteer";
+import * as fs from "fs";
+import { stringify } from "csv-stringify/sync";
 
 const LOGIN_URL = "https://myluxurycard.co.jp/";
 const BASE_URL = "https://netstation2.aplus.co.jp/netstation/";
@@ -68,7 +70,16 @@ export class Scraper {
       });
   }
 
-    // TODO: Implement Scraping Table
+  async createCSV() {
+    const csv = stringify(this.data as any);
+    const path = "./dist/payment_detail.csv";
+    fs.writeFile(path, csv, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`${path} created.`);
+      }
+    });
   }
 
   async close() {
