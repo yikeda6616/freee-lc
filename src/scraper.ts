@@ -13,7 +13,7 @@ export class Scraper {
 
   async initialize() {
     this.browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       defaultViewport: null,
       slowMo: 50,
     });
