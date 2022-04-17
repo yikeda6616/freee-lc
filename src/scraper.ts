@@ -1,6 +1,7 @@
 import puppeteer, { Browser, Page } from "puppeteer";
 import * as fs from "fs";
 import { stringify } from "csv-stringify/sync";
+import { formatDate } from "./helper";
 
 const LOGIN_URL = "https://myluxurycard.co.jp/";
 const BASE_URL = "https://netstation2.aplus.co.jp/netstation/";
@@ -10,10 +11,12 @@ export class Scraper {
   browser: Browser | null = null;
   page: Page | null = null;
   data: Array<string>[] | undefined = [];
+  date: string | undefined = "";
 
   async initialize() {
     this.browser = await puppeteer.launch({
       headless: true,
+      devtools: false,
       defaultViewport: null,
       slowMo: 50,
     });
@@ -39,9 +42,20 @@ export class Scraper {
     await this.page?.waitForNavigation({ waitUntil: "networkidle2" });
   }
 
-  async getPaymentDetailsProcess() {
+  async goToPaymentDetailsPage() {
     await this.page?.goto(DETAILS_URL, { waitUntil: "networkidle2" });
+  }
 
+  async getDateProcess() {
+    this.date = await this.page?.evaluate(() => {
+      let date = document.querySelectorAll(".title-lv2")[1]?.innerHTML;
+      console.log(date);
+      return date;
+    });
+    this.date = await formatDate(this.date);
+  }
+
+  async getPaymentDetailsProcess() {
     this.data = await this.page?.evaluate(() => {
       const table = document.querySelector(".tbl-stripe-use-detail");
       const rows = table?.querySelectorAll("tr");
@@ -72,7 +86,7 @@ export class Scraper {
 
   async createCSV() {
     const csv = stringify(this.data as any);
-    const path = "./dist/payment_detail.csv";
+    const path = `./dist/${this.date}.csv`;
     fs.writeFile(path, csv, (err) => {
       if (err) {
         console.log(err);
