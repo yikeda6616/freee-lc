@@ -1,6 +1,7 @@
-name: Issue Report
-description: File an issue report
-title: "[Issue]: "
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
 assignees:
   - yikeda6616
 body:
