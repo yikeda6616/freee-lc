@@ -49,7 +49,6 @@ export class Scraper {
   async getDateProcess() {
     this.date = await this.page?.evaluate(() => {
       let date = document.querySelectorAll(".title-lv2")[1]?.innerHTML;
-      console.log(date);
       return date;
     });
     this.date = await formatDate(this.date);
